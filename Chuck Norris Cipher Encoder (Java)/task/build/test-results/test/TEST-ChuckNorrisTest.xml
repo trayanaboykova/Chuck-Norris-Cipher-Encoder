@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ChuckNorrisTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-30T10:44:53" hostname="TRAYANA" time="0.046">
+<testsuite name="ChuckNorrisTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-30T11:02:32" hostname="TRAYANA" time="0.039">
   <properties/>
-  <testcase name="start" classname="ChuckNorrisTest" time="0.046"/>
+  <testcase name="start" classname="ChuckNorrisTest" time="0.039"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 Please input operation (encode/decode/exit):
