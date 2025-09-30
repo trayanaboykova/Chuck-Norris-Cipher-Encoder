@@ -4,39 +4,34 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Input string:");
+        System.out.println("Input encoded string:");
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String encoded = scanner.nextLine().trim();
 
-        // Step 1: convert whole string to binary (7-bit each char)
-        StringBuilder binaryMessage = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            String binary = String.format("%7s", Integer.toBinaryString(c)).replace(' ', '0');
-            binaryMessage.append(binary);
-        }
+        // 1) Parse unary blocks -> reconstruct the binary bitstream
+        String[] blocks = encoded.split("\\s+"); // split by spaces
+        StringBuilder bits = new StringBuilder();
 
-        // Step 2: Encode using Chuck Norris unary code
-        StringBuilder result = new StringBuilder();
-        char prevBit = binaryMessage.charAt(0);
-        result.append(prevBit == '1' ? "0 " : "00 ");
-        result.append("0");
+        for (int i = 0; i < blocks.length; i += 2) {
+            String header = blocks[i];          // "0" -> series of 1s, "00" -> series of 0s
+            String zeros = blocks[i + 1];       // its length is the run length
 
-        for (int i = 1; i < binaryMessage.length(); i++) {
-            char currentBit = binaryMessage.charAt(i);
-            if (currentBit == prevBit) {
-                // Continue the same sequence → add another "0"
-                result.append("0");
-            } else {
-                // New sequence → add a space + new block
-                result.append(" ");
-                result.append(currentBit == '1' ? "0 " : "00 ");
-                result.append("0");
+            char bit = header.equals("0") ? '1' : '0';
+            int runLen = zeros.length();
+
+            for (int k = 0; k < runLen; k++) {
+                bits.append(bit);
             }
-            prevBit = currentBit;
         }
 
-        // Output
+        // 2) Split into 7-bit groups and turn into characters
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < bits.length(); i += 7) {
+            String chunk = bits.substring(i, i + 7);
+            int code = Integer.parseInt(chunk, 2);
+            result.append((char) code);
+        }
+
         System.out.println("The result:");
         System.out.println(result.toString());
     }
